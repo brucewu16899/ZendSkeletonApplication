@@ -16,3 +16,5 @@ This application use social network as login lib, it requires:
         "hybridauth/hybridauth": "dev-master",
         "socalnick/scn-social-auth": "dev-master"
 login link is: /user/login
+
+it also need scn-social-auth.local.php (with facebook clientid and secret)
