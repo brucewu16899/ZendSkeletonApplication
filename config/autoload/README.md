@@ -9,6 +9,10 @@ for things like database connections, etc.
 
 
 
+Import the schemas for ZfcUser (./vendor/zf-commons/zfc-user/data/schema.sql) and ScnSocialAuth (./vendor/socalnick/scn-social-auth/data/schema.sql).
+
+
+
 This application use social network as login lib, it requires:
 		"zendframework/zendframework": "2.2.*",
         "zf-commons/zfc-base": "0.*",
@@ -17,4 +21,9 @@ This application use social network as login lib, it requires:
         "socalnick/scn-social-auth": "dev-master"
 login link is: /user/login
 
-it also need scn-social-auth.local.php (with facebook clientid and secret)
+
+
+It also needs:
+
+1. local.php (same as local.php.dist with correct username and password)
+2. scn-social-auth.local.php (with facebook clientid and secret)
