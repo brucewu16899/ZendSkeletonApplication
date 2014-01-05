@@ -5,31 +5,52 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Album\Model\Album;
 use Album\Form\AlbumForm;
-
- class AlbumController extends AbstractActionController
- {
-     protected $albumTable;
+use Zend\EventManager\EventManagerInterface;
 
 
+class AlbumController extends AbstractActionController
+{
+    protected $albumTable;
 
-     public function getAlbumTable()
-     {
+
+     /**
+     * Inject an EventManager instance
+     *
+     * @param  EventManagerInterface $eventManager
+     * @return void
+     */
+    public function setEventManager(EventManagerInterface $events)
+    {
+        parent::setEventManager($events);
+ 
+        $controller = $this;
+        $events->attach('dispatch', function ($e) use ($controller) {
+            if (!$this->zfcUserAuthentication()->hasIdentity()) {
+                return $this->redirect()->toRoute('zfcuser');
+            }
+        }, 100); // execute before executing action logic
+ 
+        return $this;
+    }
+
+    public function getAlbumTable()
+    {
           if (!$this->albumTable) {
                $sm = $this->getServiceLocator();
                $this->albumTable = $sm->get('Album\Model\AlbumTable');
           }
           return $this->albumTable;
-     }
+    }
 
-     public function indexAction()
-     {
+    public function indexAction()
+    {
           return new ViewModel(array(
                'albums' => $this->getAlbumTable()->fetchAll(),
           ));
-     }
+    }
 
-     public function addAction()
-     {
+    public function addAction()
+    {
           $form = new AlbumForm();
           $form->get('submit')->setValue('Add');
 
@@ -48,10 +69,10 @@ use Album\Form\AlbumForm;
              }
           }
           return array('form' => $form);
-     }
+    }
 
-     public function editAction()
-     {
+    public function editAction()
+    {
           $id = (int) $this->params()->fromRoute('id', 0);
           if (!$id) {
              return $this->redirect()->toRoute('album', array(
@@ -91,10 +112,10 @@ use Album\Form\AlbumForm;
              'id' => $id,
              'form' => $form,
           );
-     }
+    }
 
-     public function deleteAction()
-     {
+    public function deleteAction()
+    {
           $id = (int) $this->params()->fromRoute('id', 0);
           if (!$id) {
              return $this->redirect()->toRoute('album');
@@ -117,5 +138,5 @@ use Album\Form\AlbumForm;
              'id'    => $id,
              'album' => $this->getAlbumTable()->getAlbum($id)
           );
-     }
- }
+    }
+}

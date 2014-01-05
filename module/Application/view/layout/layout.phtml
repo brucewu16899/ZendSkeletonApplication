@@ -41,6 +41,16 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
                     </ul>
+
+                    <?php if($this->zfcUserIdentity()) { ?>
+                        <ul class="nav navbar-nav">
+                            <li><a href="<?php echo $this->url('zfcuser') ?>"><?php echo $this->zfcUserIdentity()->getDisplayName(); ?></a></li>
+                        </ul>
+                        <!-- display the 'display name' of the user -->
+                        <ul class="nav navbar-nav">
+                            <li><a href="<?php echo $this->url('zfcuser/logout') ?>"><?php echo $this->translate('Log out') ?></a></li>
+                        </ul>
+                    <?php } ?>
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
@@ -48,7 +58,7 @@
             <?php echo $this->content; ?>
             <hr>
             <footer>
-                <p>&copy; 2005 - <?php echo date('Y') ?> by Zend Technologies Ltd. <?php echo $this->translate('All rights reserved.') ?></p>
+                <p>&copy; 2005 - <?php echo date('Y') ?> by Ke Sheng. <?php echo $this->translate('All rights reserved.') ?></p>
             </footer>
         </div> <!-- /container -->
         <?php echo $this->inlineScript() ?>

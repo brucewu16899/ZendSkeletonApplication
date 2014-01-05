@@ -154,6 +154,7 @@ $settings = array(
      *
      */
     //'login_redirect_route' => 'zfcuser',
+    'login_redirect_route' => 'album',
 
     /**
      * Logout Redirect Route
